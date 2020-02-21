@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.digital.entity">
+     <class name="ProductInfo" table="product_info" catalog="digital">
+           <id name="id" type="java.lang.Integer"><!--主键对应的id  -->
+	            <column name="id" />
+	            <generator class="native"></generator>    
+	        </id>
+	 <!-- ProductInfo映射实体类到type的单向多对一的关联-->
+     <many-to-one name="type"  class="Type" column="tid" lazy="false" fetch="select"></many-to-one>
+     
+     <property name="code" type="java.lang.String">
+         <column name="code" length="16" not-null="true"></column>
+     </property>
+       <property name="name" type="java.lang.String">
+         <column name="name" length="255" not-null="true"></column>
+     </property>
+       <property name="brand" type="java.lang.String">
+         <column name="brand" length="20" not-null="true"></column>
+     </property>
+     <property name="picture" type="java.lang.String">
+         <column name="picture" length="255" not-null="true"></column>
+     </property>
+     <property name="img2" type="java.lang.String">
+         <column name="img2" length="255" not-null="true"></column>
+     </property>
+     <property name="img3" type="java.lang.String">
+         <column name="img3" length="255" not-null="true"></column>
+     </property>
+     <property name="img4" type="java.lang.String">
+         <column name="img4" length="255" not-null="true"></column>
+     </property>
+      <property name="inventory" type="java.lang.Integer">
+         <column name="inventory" not-null="true"></column>
+     </property>
+      <property name="price" type="java.lang.Double">
+         <column name="price" not-null="true" precision="10" scale="0"></column>
+     </property>
+       <property name="introduce" type="java.lang.String">
+         <column name="introduce" not-null="true"></column>
+     </property>
+     <property name="status" type="java.lang.Integer">
+         <column name="status" not-null="true"></column>
+     </property>
+     <property name="credit" type="java.lang.Integer">
+         <column name="credit" ></column>
+     </property>
+      <property name="shop" type="java.lang.String">
+         <column name="shop" ></column>
+     </property>
+      <property name="location" type="java.lang.String">
+         <column name="location" ></column>
+     </property>
+     
+      <set name="orderDetail" cascade="delete" inverse="true" lazy="false">
+         <key column="pid"/>
+         <one-to-many class="OrderDetail"/>
+     </set>
+    </class>
+</hibernate-mapping>

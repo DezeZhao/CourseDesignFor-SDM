@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.digital.entity">
+     <class name="OrderInfo" table="order_info" catalog="digital">
+           <id name="id" type="java.lang.Integer"><!--主键对应的id  -->
+	            <column name="id" />
+	            <generator class="native"></generator>    
+	        </id>
+	 
+     <property name="status" type="java.lang.String">
+         <column name="status" length="16" not-null="true"/>
+     </property>
+       <property name="ordertime" type="java.lang.String">
+         <column name="ordertime" length="19" not-null="true"/>
+     </property>
+       <property name="orderprice" type="java.lang.Double">
+         <column name="orderprice" precision="8"/>
+     </property>
+     
+     <set name="orderDetail" cascade="all" inverse="true" lazy="false">
+         <key column="oid"/>
+         <one-to-many class="OrderDetail"/>
+     </set>
+     <!-- userInfo映射实体类到type的单向多对一的关联 ->多个订单可能只有一个UserInfo-->
+     <many-to-one name="userInfo"  class="UserInfo" column="uid" lazy="false" fetch="select"></many-to-one>
+     
+    </class>
+</hibernate-mapping>

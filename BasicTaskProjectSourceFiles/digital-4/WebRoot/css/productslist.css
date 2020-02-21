@@ -1,0 +1,155 @@
+	.bottom-main{
+
+		margin-top:30px;
+		width:100%;
+	}
+	.product{
+		float: left;
+		width: 80%;
+		margin-left:2%;
+		height: 2820px;
+	}
+   
+	.product-top-bar{
+	   height: 40px;
+		width: 99%;
+		border:3px solid #F33A0A;
+		border-top: 0px;
+		border-right:0px;
+		border-left: 0px;
+	}
+	.product-top-bar ul li{
+		font-size: 18px;
+		float: left;
+		padding:0 1%;
+		line-height:40px;
+	}
+	.product-top-bar ul li a{
+		color: black;
+	}
+	.product-top-bar ul li:hover{
+		background-color:  #F33A0A;
+	}
+	.product-top-bar ul li a:hover{
+		color: white;
+		text-decoration: none;
+	}
+	.product-info-wrapper{
+		margin-top: 5px;
+	}
+	.product-info{
+		border: 1px solid #E9E5E5;
+		height: 370px;
+		width:240px;
+		float: left;
+		margin-right: 1%;
+		margin-top: 20px;
+	}
+	
+	.product-info:hover{
+		border: 1px solid #FF6D17;
+	}
+	.product-picture-box a img{
+		hieght:240px;
+		width: 240px;
+	}
+   .product-price-box{
+	   text-align: left;
+	   height:20px;
+	   width:100%;
+	}
+	.product-price{
+		padding-left:1%;
+		padding-top:10px;
+	}
+	.product-price strong{
+		font-size: 18px;
+		color: orangered;
+	}
+	.product-intro-box{
+	    text-align: left;
+		box-sizing:border-box ;
+		height: 40px;
+		width: 100%;
+		margin-top: 13px;
+		padding-left:5px; 
+		padding-right: 5px;
+		border:1px solid #EFEAEA;
+		border-top: 0;
+		border-left: 0;
+		border-right: 0;
+		overflow:hidden;
+	}
+	.product-shop-location{
+		box-sizing: border-box;
+		padding: 5px;
+		height: 15px;
+	}
+	.product-shop{
+		float: left;
+	}
+	.product-shop a{
+	   font-weight: bold;
+		color: #968F8F;
+	}
+	.product-shop a:hover{
+		color: #FB5300;
+	}
+	.product-location{
+		float: right;
+	   padding-right: 5px;
+		font-weight: bold;
+	}
+	.wangwang{
+		height: 30px;
+		width: 100%;
+	}
+	.wangwang a i{
+		position: relative;
+		left: -100px;
+	    top: 8px;
+	}
+	
+	.wangwang a img{
+		height: 30px;
+		width: 30px;
+		position: relative;
+		left: 75px;
+		top: 12px;
+	}
+	
+	.leader-board{
+		float: left;
+		width: 16%;
+		height: 2820px;
+	}
+	.leader-board-table{
+		width: 100%;
+	   border: 1px solid #EBE9E9;
+		box-shadow: 2px 2px 10px 1px lightgray;
+	}
+	.table-head{
+		line-height: 40px;
+		font-size: 18px;
+		text-align: center;
+		font-weight: bold;
+		color: white;
+		background-color: #FB5300;
+	}
+	.picture-td{
+		height: 80px;
+		width: 40%;
+		border: thick;
+	}
+	.browse-pic{
+		height: 80px;
+		width: 80px;
+	}
+	.name-td{
+		padding-top: 8px;
+		padding-left: 10px;
+		vertical-align: top;
+	}
+	.table-row:hover{
+		border: 1px solid #D93C02;
+	}

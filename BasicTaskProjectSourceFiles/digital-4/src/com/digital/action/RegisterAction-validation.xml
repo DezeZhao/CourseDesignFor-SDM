@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validators PUBLIC
+  		"-//Apache Struts//XWork Validator 1.0.3//EN"
+  		"http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+     <field name="user.userName">
+         <field-validator type="requiredstring">
+             <param name="trim">true</param>
+             <message key="userName.null"></message>
+         </field-validator>
+         <field-validator type="stringlength">
+             <param name="maxLength">10</param>
+             <param name="minLength">2</param>
+             <message key="userName.length"></message>
+         </field-validator>
+     </field>
+     
+     <field name="user.password">        
+         <field-validator type="requiredstring">
+             <param name="trim">true</param>
+             <message key="password.null"></message>
+         </field-validator>
+         <field-validator type="stringlength">
+             <param name="minLength">8</param>
+             <param name="maxLength">16</param>
+             <message key="password.length"></message>
+         </field-validator>
+     </field> 
+     
+     <field name="repassword">
+         <field-validator type="requiredstring">
+             <param name="trim">true</param>
+             <message key="repassword.null"></message>
+         </field-validator>
+         <field-validator type="fieldexpression">
+             <param name="expression">user.password==repassword</param>
+             <message key="repassword.same"></message>
+         </field-validator>
+     </field>
+     
+     <field name="user.realName">
+          <field-validator type="requiredstring">
+              <param name="trim">true</param>
+              <message key="realName.null"></message>
+          </field-validator>
+          <field-validator type="stringlength">
+              <param name="maxLength">10</param>
+              <param name="minLength">2</param>
+              <message key="realName.length"></message>
+          </field-validator>
+     </field>
+     
+     <field name="user.address">
+          <field-validator type="requiredstring">
+              <param name="trim">true</param>
+              <message key="address.null"></message>
+          </field-validator>
+          <field-validator type="stringlength">
+              <param name="maxLength">50</param>
+              <message key="address.length"></message>
+          </field-validator>
+     </field>
+     
+      <field name="user.email">
+          <field-validator type="requiredstring">
+              <param name="trim">true</param>
+              <message key="email.null"></message>
+          </field-validator>
+          <field-validator type="email">
+              <param name="trim">true</param>
+              <message key="email.format"></message>
+          </field-validator>
+     </field>
+</validators>

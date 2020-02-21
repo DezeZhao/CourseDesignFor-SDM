@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+   
+    <!-- 配置数据源DataSource 在hibernate配置文件中-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
+         <property name="jdbcUrl" value="jdbc:mysql:///digital?serverTimezone=GMT"/>
+         <property name="user" value="root"/>
+         <property name="password" value="zdz199804103033"/>
+         <property name="minPoolSize" value="5"/>
+         <property name="maxPoolSize" value="10"/>
+    </bean>
+    
+    <!-- 配置hibernate的sessionfactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+         <!-- 配置数据源属性 -->
+         <property name="dataSource" >
+             <ref bean="dataSource"/>
+         </property>
+         <!-- 配置hibernate基本属性 -->
+         <property name="hibernateProperties">
+             <props>
+                 <prop key="hibernate.dialect">
+                     org.hibernate.dialect.MySQLDialect
+                 </prop>
+             </props>
+         </property>
+         
+         <!-- 配置hibernate映射文件的位置及名称 -->
+         <property name="mappingResources">
+             <list>
+                 <value>com/digital/entity/UserInfo.hbm.xml</value>
+                 <value>com/digital/entity/Type.hbm.xml</value>
+                 <value>com/digital/entity/ProductInfo.hbm.xml</value>
+                 <value>com/digital/entity/OrderInfo.hbm.xml</value>
+                 <value>com/digital/entity/OrderDetail.hbm.xml</value>
+             </list>
+         </property>                              
+    </bean>
+    
+    <!--声明hibernate事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+       <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <!-- 定义事务通知 需要事务管理器 -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager" >
+        <!-- 指定事务传播规则 -->
+        <tx:attributes>
+             <!-- 对业务中的所有方法应用REQUIRED事务规则 -->
+             <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <!-- 定义切面（AOP配置），并将事务通知和切面组合 （定义哪些方法应用哪些规则）-->
+    <aop:config>
+        <!-- 配置切点，对com.digital.service 包下的所有类的所有方法都应用事务规则-->
+        <aop:pointcut expression="execution(* com.digital.service.*.*(..))" id="serviceMethods"/>
+        <!-- 将事务通知和切点组合 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>    
+    </aop:config>
+     
+    <!--DAO层实例化  -->
+    <bean id="userInfoDAO" class="com.digital.dao.impl.UserInfoDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    <bean id="typeDAO" class="com.digital.dao.impl.TypeDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property> 
+    </bean>
+    
+    <bean id="productInfoDAO" class="com.digital.dao.impl.ProductInfoDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property> 
+    </bean>
+    
+     <bean id="orderDetailDAO" class="com.digital.dao.impl.OrderDetailDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property> 
+    </bean>
+    
+     <bean id="orderInfoDAO" class="com.digital.dao.impl.OrderInfoDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"></property> 
+    </bean>
+    <!--DAO层实例化结束  -->
+    <!--service层实例化  -->
+    <bean id="userInfoService" class="com.digital.service.impl.UserInfoServiceImpl">
+        <property name="userInfoDAO" ref="userInfoDAO"></property>
+    </bean>
+    
+    <bean id="typeService" class="com.digital.service.impl.TypeServiceImpl">
+        <property name="typeDAO" ref="typeDAO"></property>
+    </bean>
+    
+    <bean id="productInfoService" class="com.digital.service.impl.ProductInfoServiceImpl">
+        <property name="productInfoDAO" ref="productInfoDAO"></property>
+    </bean>
+    
+    <bean id="orderDetailService" class="com.digital.service.impl.OrderDetailServiceImpl">
+        <property name="orderDetailDAO" ref="orderDetailDAO"></property>
+    </bean>
+    
+    <bean id="orderInfoService" class="com.digital.service.impl.OrderInfoServiceImpl">
+        <property name="orderInfoDAO" ref="orderInfoDAO"></property>
+    </bean>
+     <!--service层实例化结束  -->
+     <!--action层实例化  -->
+    <bean name="uiAction" class="com.digital.action.UserInfoAction" scope="prototype">
+        <property name="userInfoService" ref="userInfoService"></property>
+    </bean>
+    
+    <bean name="registerAction" class="com.digital.action.RegisterAction" scope="prototype">
+        <property name="userInfoService" ref="userInfoService"></property>
+    </bean>
+    <!--  定义productinfoaction类，并为其中的productInfoservice属性注入值 -->
+    <bean name="piAction" class="com.digital.action.ProductInfoAction" scope="prototype">
+        <property name="productInfoService" ref="productInfoService"></property>
+        <property name="typeService" ref="typeService"></property>
+    </bean>
+    
+     <bean name="cartAction" class="com.digital.action.CartAction" scope="prototype">
+        <property name="productInfoService" ref="productInfoService"></property>
+    </bean>
+    
+    <bean name="orderAction" class="com.digital.action.OrderAction" scope="prototype">
+        <property name="orderDetailService" ref="orderDetailService"></property>
+        <property name="orderInfoService" ref="orderInfoService"></property>
+    </bean>
+    <!--action层实例化  结束-->
+    
+</beans>

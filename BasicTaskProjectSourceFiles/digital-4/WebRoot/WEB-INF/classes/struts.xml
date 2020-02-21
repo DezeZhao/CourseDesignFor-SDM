@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <constant name="struts.custom.i18n.resources" value="Resource"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.locale" value="zh_CN"></constant>
+      <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.ui.templateDir" value="template" />
+	<package name="digital" namespace="/" extends="struts-default">
+		<interceptors>
+			<interceptor name="myAuthorization" class="com.digital.interceptor.AuthorizationInterceptor"></interceptor>
+			<!-- 定义拦截器栈 -->
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="defaultStack"/>
+				<interceptor-ref name="myAuthorization"/>
+			</interceptor-stack>
+		</interceptors>		
+		<!-- 定义默认的拦截器引用 -->
+	    <!-- <default-interceptor-ref name="myStack"/>	 -->
+		 
+		 <!-- <global-results>
+		     <result name="input" type="dispatcher">
+		     </result>
+		 </global-results> -->
+		
+		<!--登录action  -->
+		<action name="*Action" class="com.digital.action.LoginAction" method="{1}" >
+	         <!-- 	   <result name="success">/index.jsp</result> -->
+		    <result name="success" type="redirectAction">list</result>
+			<result name="input">/{1}.jsp</result> 	
+		</action>
+		<!--注册action 注意：在struts框架中的action name要和对应 action的jsp文件中表单
+		的action名称一致,其实是将对应jsp文件中表单的action名称传给struts框架进行处理  
+		method 值为对应action Java文件中的方法名称或者直接不写该属性
+		用重写execute方法就会默认执行该方法 -->
+		<action name="*_*" class="com.digital.action.{1}Action" method="{2}" >
+			<result name="success"> /userinfo.jsp</result>
+			<result name="input"> /{2}.jsp</result>
+	    </action>
+	    <!--商品信息分类action  -->
+	    <action name="list" class="com.digital.action.ProductInfoAction" method="list">
+	        <result name="index"> /index.jsp</result>
+	        <interceptor-ref name="myStack"></interceptor-ref>	
+	        <result name="input">/login.jsp</result><!-- 有了global results 此句可省略 -->
+	    </action>
+	</package>	
+</struts>

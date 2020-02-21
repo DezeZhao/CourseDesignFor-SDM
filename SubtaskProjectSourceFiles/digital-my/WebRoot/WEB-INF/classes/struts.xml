@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <constant name="struts.custom.i18n.resources" value="Resource"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.locale" value="en_US"></constant> 
+    <!-- 让jsp拥有html同样的样式，防止变形 -->
+    <constant name="struts.ui.theme" value="simple" />
+    <constant name="struts.ui.templateDir" value="template" />
+    <package name="digital" namespace="/" extends="struts-default">
+       <interceptors>
+           <interceptor name="loginCheck" class="com.digital.interceptor.AuthorizationInterceptor"></interceptor>
+       </interceptors>
+       
+       <global-results>
+           <result name="login">/login.jsp</result>
+       </global-results>
+       <!-- 登录 -->
+       <action name="login" class="uiAction" method="login"><!-- name随便起就可 -->
+          <!--  <result name="index" >/index.jsp</result>  -->
+           <result name="index" type="redirectAction">list</result>
+           <result name="login" type="redirect">login.jsp</result>
+       </action>
+       <!-- 注册 -->
+       <!--注册action -->
+       <action name="register" class="registerAction" method="register">
+           <result name="success" >/success.jsp</result>
+           <result name="input">/register.jsp</result>
+       </action> 
+	    <!-- 商品类型及列表  -->
+       <action name="list" class="piAction" method="list">
+           <result name="index">/index.jsp</result>
+       </action>
+       <!-- 商品详细信息展示 -->
+       <action name="display" class="piAction" method="display">
+           <result name="display">/display.jsp</result>
+       </action>
+       <!--  加入购物车-->
+       <action name="addToShopCart" class="cartAction" method="addToShopCart">
+           <result name="shopcart">/cart.jsp</result>
+           <interceptor-ref name="loginCheck"/>
+           <interceptor-ref name="defaultStack"/>
+       </action>
+       <!-- 退出账户登录 -->
+       <action name="logOut" class="uiAction" method="logOut">
+           <result name="index" type="redirectAction">list</result>
+       </action>
+       <!-- 更新购物车中选择的商品数量  可输入数量后回车 -->
+       <action name="updateProductQuantity" class="cartAction" method="updateProductQuantity">
+           <result name="shopcart">/cart.jsp</result>
+       </action>
+       <!-- 展示购物车订单页面的商品详细信息 -->
+       <action name="showDetailInCart" class="cartAction" method="showDetailInCart">
+           <result name="display">/display.jsp</result>
+       </action>
+       <!-- 删除选中的购物车商品项 -->
+       <action name="deleteSelectedItem" class="cartAction" method="deleteSelectedItem">
+           <result name="shopcart">/cart.jsp</result>
+       </action> 
+       <!-- 清空购物车 -->
+       <action name="clearCart" class="cartAction" method="clearCart">
+           <result name="shopcart">/cart.jsp</result>
+       </action>     
+       <!-- 添加订单信息 之后返回首页 -->
+       <action name="addOrderInfo" class="orderAction" method="addOrderInfo">
+           <result name="index" type="redirectAction">list</result>
+       </action>   
+       <!-- 得到我的订单信息 -->
+       <action name="toMyOrderInfo" class="orderAction" method="toMyOrderInfo">
+           <result name="myOrderInfo">/order.jsp</result>
+       </action>
+       <!-- 得到详细订单列表 -->
+       <action name="toOrderDetail" class="orderAction" method="toOrderDetail">
+           <result name="toOrderDetail">/orderdetail.jsp</result>
+       </action>
+       <!-- 删除指定编号的订单 -->
+       <action name="deleteSelectedOrderInfo" class="orderAction" method="deleteSelectedOrderInfo">
+           <result name="myOrderInfo" type="redirectAction">toMyOrderInfo</result>
+       </action> 
+   </package>
+</struts>
